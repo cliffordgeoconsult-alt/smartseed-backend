@@ -4,7 +4,6 @@ from pathlib import Path
 import json
 
 router = APIRouter(
-    prefix="/api",
     tags=["Boundaries"]
 )
 
