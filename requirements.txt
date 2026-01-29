@@ -1,3 +1,4 @@
+# Requirements for the SmartSeed Backend
 aiohappyeyeballs==2.4.3
 aiohttp==3.11.8
 aiosignal==1.3.1
@@ -89,3 +90,4 @@ uvicorn==0.40.0
 websocket-client==1.8.0
 yarl==1.18.0
 zipp==3.21.0
+earthengine-api==0.1.389

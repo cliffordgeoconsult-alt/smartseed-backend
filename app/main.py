@@ -1,4 +1,4 @@
-# Import necessary libraries and modules
+# libraries and modules import
 from dotenv import load_dotenv
 load_dotenv()   
 
@@ -7,9 +7,10 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from datetime import datetime
 
-from app.api.endpoints import boundaries_router
+from app.api.endpoints import boundaries_router, gee_router
+from app.core.gee_auth import init_gee
 
-# Import your future modules here. For now, we'll create placeholders.
+# Import of future modules
 # from app.db.session import get_db
 # from app.api.endpoints import zones, recommendations
 
@@ -19,7 +20,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Add CORS middleware (allows frontend to talk to backend)
+# startup event to initialize GEE
+@app.on_event("startup")
+def startup_event():
+    init_gee()
+
+# CORS middleware (allows frontend to talk to backend)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # For development only. Restrict in production.
@@ -29,6 +35,7 @@ app.add_middleware(
 )
 
 app.include_router(boundaries_router, prefix="/api")
+app.include_router(gee_router, prefix="/api")
 
 @app.get("/")
 async def root():
