@@ -17,3 +17,4 @@ if not firebase_admin._apps:
 
 def verify_token(id_token: str):
     return auth.verify_id_token(id_token)
+
