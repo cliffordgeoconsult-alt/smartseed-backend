@@ -1,27 +1,30 @@
 # app/core/gee_auth.py
 import ee
 import os
+import json
 from google.oauth2 import service_account
-from dotenv import load_dotenv
 
-load_dotenv()
 
 def init_gee() -> None:
     """
-    Initialize Google Earth Engine using a service account.
-    This must run once at app startup.
+    Initialize Google Earth Engine using a service account JSON
+    stored in an environment variable.
     """
 
-    service_account_email = os.getenv("GEE_SERVICE_ACCOUNT")
-    key_path = os.getenv("GEE_PRIVATE_KEY_PATH")
+    raw_json = os.getenv("GEE_SERVICE_ACCOUNT")
 
-    if not service_account_email or not key_path:
-        raise RuntimeError("GEE environment variables are missing")
+    if not raw_json:
+        raise RuntimeError("GEE_SERVICE_ACCOUNT environment variable is missing")
 
-    credentials = service_account.Credentials.from_service_account_file(
-        key_path,
+    try:
+        info = json.loads(raw_json)
+    except json.JSONDecodeError:
+        raise RuntimeError("GEE_SERVICE_ACCOUNT is not valid JSON")
+
+    credentials = service_account.Credentials.from_service_account_info(
+        info,
         scopes=["https://www.googleapis.com/auth/earthengine"]
     )
 
-    ee.Initialize(credentials)
+    ee.Initialize(credentials, project=info.get("project_id"))
     print("Google Earth Engine initialized successfully")
