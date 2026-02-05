@@ -31,3 +31,4 @@ def ndvi_summary(
             "error": "NDVI computation failed",
             "details": str(e)
         }
+    
