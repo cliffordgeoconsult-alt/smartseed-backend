@@ -7,8 +7,6 @@ def get_soil_summary(geometry: ee.Geometry) -> dict:
     """
     Returns mean topsoil (0–30 cm) soil properties
     from SoilGrids (ISRIC).
-
-    RAW values only. No interpretation.
     """
 
     soil = ee.Image(SOILGRID_IMAGE).select([
@@ -28,17 +26,26 @@ def get_soil_summary(geometry: ee.Geometry) -> dict:
         maxPixels=1e13
     )
 
+    result = stats.getInfo()
+
+    if result is None:
+        return {
+            "status": "no_data",
+            "message": "No soil data available for this geometry."
+        }
+
     return {
-        "ph": stats.get("phh2o_0-30cm_mean").getInfo(),
-        "organic_carbon_g_kg": stats.get("soc_0-30cm_mean").getInfo(),
-        "bulk_density_cg_cm3": stats.get("bdod_0-30cm_mean").getInfo(),
-        "texture": {
-            "clay_pct": stats.get("clay_0-30cm_mean").getInfo(),
-            "sand_pct": stats.get("sand_0-30cm_mean").getInfo(),
-            "silt_pct": stats.get("silt_0-30cm_mean").getInfo()
-        },
+        "status": "success",
+        "source": "SoilGrids (ISRIC)",
         "depth_cm": "0–30",
         "scale_m": 250,
         "aggregation": "mean",
-        "source": "SoilGrids (ISRIC)"
+        "ph": result.get("phh2o_0-30cm_mean"),
+        "organic_carbon_g_kg": result.get("soc_0-30cm_mean"),
+        "bulk_density_cg_cm3": result.get("bdod_0-30cm_mean"),
+        "texture": {
+            "clay_pct": result.get("clay_0-30cm_mean"),
+            "sand_pct": result.get("sand_0-30cm_mean"),
+            "silt_pct": result.get("silt_0-30cm_mean")
+        }
     }

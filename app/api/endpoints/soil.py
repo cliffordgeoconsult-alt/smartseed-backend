@@ -4,10 +4,7 @@ import ee
 from app.api.deps import get_geometry
 from app.services.gee.soil import get_soil_summary
 
-router = APIRouter(
-    prefix="/soil",
-    tags=["Soil"]
-)
+router = APIRouter(prefix="/soil", tags=["Soil"])
 
 
 @router.post("/summary")
@@ -15,13 +12,16 @@ def soil_summary(
     geometry: ee.Geometry = Depends(get_geometry)
 ):
     """
-    Mean topsoil (0–30 cm) soil properties
-    from SoilGrids (ISRIC).
+    Returns mean soil properties (0–30cm).
     """
 
-    data = get_soil_summary(geometry)
+    try:
+        data = get_soil_summary(geometry)
 
-    return {
-        "status": "success",
-        "soil": data
-    }
+        return data
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }
