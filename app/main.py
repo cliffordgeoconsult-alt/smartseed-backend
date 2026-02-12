@@ -8,6 +8,7 @@ import uvicorn
 from datetime import datetime
 
 from app.api.endpoints import boundaries_router, gee_router
+from app.api.endpoints.ndvi import router as ndvi_router
 from app.api.endpoints.rainfall import router as rainfall_router
 from app.api.endpoints.rainfall_tiles import router as rainfall_tiles_router
 from app.api.endpoints.rainfall_monthly import router as rainfall_monthly_router
@@ -47,6 +48,7 @@ app.add_middleware(
 
 app.include_router(boundaries_router, prefix="/api")
 app.include_router(gee_router, prefix="/api")
+app.include_router(ndvi_router, prefix="/api")
 app.include_router(rainfall_tiles_router, prefix="/api")
 app.include_router(rainfall_router, prefix="/api")
 app.include_router(rainfall_monthly_router, prefix="/api")
