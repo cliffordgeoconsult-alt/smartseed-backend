@@ -5,4 +5,4 @@ __pycache__/
 .idea/
 *.sqlite3
 secrets/firebase-admin.json
-secrets/gee-service-account.json 
+secrets/gee-service-account.json *.swp
