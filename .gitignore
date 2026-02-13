@@ -6,3 +6,4 @@ __pycache__/
 *.sqlite3
 secrets/firebase-admin.json
 secrets/gee-service-account.json *.swp
+secrets/gee-service-account.json 
