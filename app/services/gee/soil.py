@@ -1,6 +1,6 @@
 import ee
 
-SOILGRID_IMAGE = "ISRIC/SoilGrids250m"
+SOILGRID_COLLECTION = "ISRIC/SoilGrids250m"
 
 
 def get_soil_summary(geometry: ee.Geometry) -> dict:
@@ -9,7 +9,10 @@ def get_soil_summary(geometry: ee.Geometry) -> dict:
     from SoilGrids (ISRIC).
     """
 
-    soil = ee.Image(SOILGRID_IMAGE).select([
+    # SoilGrids is an ImageCollection
+    soil_image = ee.ImageCollection(SOILGRID_COLLECTION).first()
+
+    soil = soil_image.select([
         "phh2o_0-30cm_mean",
         "soc_0-30cm_mean",
         "bdod_0-30cm_mean",
@@ -31,7 +34,7 @@ def get_soil_summary(geometry: ee.Geometry) -> dict:
     if result is None:
         return {
             "status": "no_data",
-            "message": "No soil data available for this geometry."
+            "message": "No soil data available."
         }
 
     return {
