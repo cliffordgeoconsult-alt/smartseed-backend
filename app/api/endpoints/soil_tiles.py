@@ -1,19 +1,18 @@
-from fastapi import APIRouter, Depends
-from app.api.deps import get_geometry
-from app.services.gee.soil_tiles import get_soil_tiles
+# app/api/endpoints/soil_tiles.py
+
+from fastapi import APIRouter, Body
 import ee
+
+from app.services.gee.soil_tiles import get_soil_tile
 
 router = APIRouter()
 
 
 @router.post("/soil/tiles")
 def soil_tiles(
-    dataset: str,
+    geometry: dict = Body(...),
+    dataset: str = Body(...),   
     depth: str = "0-20cm",
-    geometry: ee.Geometry = Depends(get_geometry),
 ):
-    return get_soil_tiles(
-        geometry=geometry,
-        dataset=dataset,
-        depth=depth,
-    )
+    ee_geometry = ee.Geometry(geometry)
+    return get_soil_tile(ee_geometry, dataset, depth)
