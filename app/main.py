@@ -21,6 +21,7 @@ from app.api.endpoints.temperature_anomaly import router as temperature_anomaly_
 from app.api.endpoints.elevation import router as elevation_router
 from app.api.endpoints.elevation_tiles import router as elevation_tiles_router
 from app.api.endpoints.soil_analysis import router as soil_analysis_router
+from app.api.endpoints.soil_tiles import router as soil_tiles_router
 from app.core.gee_auth import init_gee
 
 # Import of future modules
@@ -62,6 +63,7 @@ app.include_router(temperature_anomaly_router, prefix="/api")
 app.include_router(elevation_router, prefix="/api")
 app.include_router(elevation_tiles_router, prefix="/api")
 app.include_router(soil_analysis_router, prefix="/api")
+app.include_router(soil_tiles_router, prefix="/api")
 
 @app.get("/")
 async def root():
