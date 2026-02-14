@@ -2,7 +2,7 @@ import ee
 
 ISDA_BASE = "ISDASOIL/Africa/v1"
 
-SOIL_PARAMETERS = {
+SOIL_DATASETS = {
     "ph": "ph",
     "nitrogen": "nitrogen_total",
     "organic_carbon": "carbon_organic",
@@ -29,29 +29,31 @@ def get_full_soil_analysis(
     depth: str = "0-20cm"
 ) -> dict:
     """
-    Returns complete soil profile for selected geometry.
+    Returns full soil statistics for selected geometry.
     """
 
     try:
         results = {}
 
-        for key, param in SOIL_PARAMETERS.items():
+        band_name = "mean_0_20" if depth == "0-20cm" else "mean_20_50"
 
-            image = ee.Image(f"{ISDA_BASE}/{param}")
+        for key, dataset in SOIL_DATASETS.items():
 
-            # Depth handling
-            if param == "bedrock_depth":
+            image = ee.Image(f"{ISDA_BASE}/{dataset}")
+
+            # Bedrock only has one band usually
+            if dataset == "bedrock_depth":
                 band = image.select(0)
             else:
-                band_index = 0 if depth == "0-20cm" else 1
-                band = image.select(band_index)
+                band = image.select(band_name)
 
             soil = band.clip(geometry)
 
             stats = soil.reduceRegion(
                 reducer=ee.Reducer.mean()
                     .combine(ee.Reducer.min(), "", True)
-                    .combine(ee.Reducer.max(), "", True),
+                    .combine(ee.Reducer.max(), "", True)
+                    .combine(ee.Reducer.stdDev(), "", True),
                 geometry=geometry,
                 scale=250,
                 maxPixels=1e13,

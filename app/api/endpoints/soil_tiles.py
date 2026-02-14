@@ -8,16 +8,12 @@ router = APIRouter()
 
 @router.post("/soil/tiles")
 def soil_tiles(
-    parameter: str,
+    dataset: str,
     depth: str = "0-20cm",
     geometry: ee.Geometry = Depends(get_geometry),
 ):
-    """
-    Returns soil tile layer for frontend visualization.
-    """
-
     return get_soil_tiles(
         geometry=geometry,
-        parameter=parameter,
+        dataset=dataset,
         depth=depth,
     )
