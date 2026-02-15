@@ -2,6 +2,9 @@ import ee
 from datetime import datetime
 
 
+CHIRPS_ID = "UCSB-CHG/CHIRPS/DAILY"
+
+# Custom Date Range Rainfall
 def compute_rainfall(
     geometry: ee.Geometry,
     start_date: str,
@@ -17,20 +20,18 @@ def compute_rainfall(
     datetime.fromisoformat(end_date)
 
     collection = (
-        ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY")
+        ee.ImageCollection(CHIRPS_ID)
         .filterDate(start_date, end_date)
         .filterBounds(geometry)
     )
-
     image_count = collection.size()
 
-    # Sum rainfall over time
     total_rainfall = collection.sum()
 
     stats = total_rainfall.reduceRegion(
         reducer=ee.Reducer.mean(),
         geometry=geometry,
-        scale=5566,   # CHIRPS native resolution
+        scale=5566,
         maxPixels=1e13
     )
 
@@ -43,3 +44,34 @@ def compute_rainfall(
     })
 
     return result.getInfo()
+
+# Annual Rainfall (Single Year)
+def get_annual_rainfall(
+    geometry: ee.Geometry,
+    year: int
+):
+
+    if year < 1981:
+        raise ValueError("CHIRPS data starts from 1981.")
+
+    collection = (
+        ee.ImageCollection(CHIRPS_ID)
+        .filterBounds(geometry)
+        .filterDate(f"{year}-01-01", f"{year}-12-31")
+    )
+
+    total_img = collection.sum()
+
+    stats = total_img.reduceRegion(
+        reducer=ee.Reducer.mean(),
+        geometry=geometry,
+        scale=5566,
+        maxPixels=1e13
+    )
+
+    total_mm = ee.Number(stats.get("precipitation")).getInfo()
+
+    return {
+        "year": year,
+        "total_mm": total_mm
+    }
