@@ -14,6 +14,7 @@ from app.api.endpoints.rainfall import router as rainfall_router
 from app.api.endpoints.rainfall_tiles import router as rainfall_tiles_router
 from app.api.endpoints.rainfall_monthly import router as rainfall_monthly_router
 from app.api.endpoints.rainfall_anomaly import router as rainfall_anomaly_router
+from app.api.endpoints.rainfall_climatology import router as rainfall_climatology_router
 from app.api.endpoints.temperature import router as temperature_router
 from app.api.endpoints.temperature_tiles import router as temperature_tiles_router
 from app.api.endpoints.temperature_monthly import router as temperature_monthly_router
@@ -56,6 +57,7 @@ app.include_router(rainfall_tiles_router, prefix="/api")
 app.include_router(rainfall_router, prefix="/api")
 app.include_router(rainfall_monthly_router, prefix="/api")
 app.include_router(rainfall_anomaly_router, prefix="/api")
+app.include_router(rainfall_climatology_router, prefix="/api")
 app.include_router(temperature_tiles_router, prefix="/api")
 app.include_router(temperature_router, prefix="/api")
 app.include_router(temperature_monthly_router, prefix="/api")

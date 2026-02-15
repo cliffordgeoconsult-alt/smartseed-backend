@@ -1,3 +1,4 @@
+# app/api/endpoints/temperature.py
 from fastapi import APIRouter, Depends
 import ee
 from app.api.deps import get_geometry

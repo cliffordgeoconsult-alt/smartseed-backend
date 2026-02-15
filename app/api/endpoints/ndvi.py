@@ -1,3 +1,4 @@
+# app/api/endpoints/ndvi.py
 from fastapi import APIRouter, Depends, Query
 import ee
 

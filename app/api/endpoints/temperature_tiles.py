@@ -1,3 +1,4 @@
+# app/api/endpoints/temperature_tiles.py
 from fastapi import APIRouter, Depends, Query
 import ee
 

@@ -1,3 +1,4 @@
+# services/gee/rainfall_monthly.py
 import ee
 
 CHIRPS = "UCSB-CHG/CHIRPS/DAILY"

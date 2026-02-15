@@ -1,3 +1,4 @@
+# app/api/endpoints/rainfall_anomaly.py
 from fastapi import APIRouter, Depends, Query
 import ee
 
