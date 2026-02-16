@@ -1,38 +1,61 @@
-# app/services/gee/soil_tiles.py
 import ee
 from app.services.gee.soil_config import (
     ISDA_BASE,
     SOIL_LAYERS,
     VALID_DEPTHS,
     SOIL_VIS,
+    SOIL_SCALING,
 )
 
-def get_soil_tile(geometry: ee.Geometry, dataset: str, depth: str):
 
-    if dataset not in SOIL_LAYERS:
-        return {"status": "error", "message": "Invalid dataset"}
+def get_multi_soil_tiles(
+    geometry: ee.Geometry,
+    datasets: list,
+    depth: str,
+):
 
     if depth not in VALID_DEPTHS:
         return {"status": "error", "message": "Invalid depth"}
 
-    dataset_name = SOIL_LAYERS[dataset]
     band_name = VALID_DEPTHS[depth]
 
-    image = ee.Image(f"{ISDA_BASE}/{dataset_name}")
-    band = image.select(band_name)
-    clipped = band.clip(geometry)
+    tiles = {}
 
-    vis = SOIL_VIS.get(dataset, {"min": 0, "max": 100})
+    for dataset in datasets:
 
-    map_id = clipped.getMapId({
-        "min": vis["min"],
-        "max": vis["max"],
-        "palette": ["blue", "cyan", "yellow", "orange", "red"],
-    })
+        if dataset not in SOIL_LAYERS:
+            continue  # skip invalid layers safely
+
+        dataset_name = SOIL_LAYERS[dataset]
+
+        image = ee.Image(f"{ISDA_BASE}/{dataset_name}")
+        band = image.select(band_name)
+
+        # 🔥 Apply scaling for visualization
+        scale_factor = SOIL_SCALING.get(dataset, 1)
+        if scale_factor != 1:
+            band = band.multiply(scale_factor)
+
+        clipped = band.clip(geometry)
+
+        vis = SOIL_VIS.get(dataset, {"min": 0, "max": 100})
+
+        map_id = clipped.getMapId({
+            "min": vis["min"],
+            "max": vis["max"],
+            "palette": [
+                "blue",
+                "cyan",
+                "yellow",
+                "orange",
+                "red"
+            ],
+        })
+
+        tiles[dataset] = map_id["tile_fetcher"].url_format
 
     return {
         "status": "success",
-        "dataset": dataset,
         "depth": depth,
-        "tile_url": map_id["tile_fetcher"].url_format,
+        "tiles": tiles,
     }

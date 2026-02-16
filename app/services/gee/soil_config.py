@@ -7,31 +7,22 @@ VALID_DEPTHS = {
 }
 
 SOIL_LAYERS = {
-    # Core chemistry
     "ph": "ph",
     "organic_carbon": "carbon_organic",
     "cec": "cation_exchange_capacity",
-
-    # Exchangeable bases (cmolc/kg)
     "calcium": "calcium_extractable",
     "magnesium": "magnesium_extractable",
     "potassium": "potassium_extractable",
-
-    # Texture (%)
     "clay": "clay_content",
     "sand": "sand_content",
     "silt": "silt_content",
-
-    # Physical
     "bulk_density": "bulk_density",
 }
 
-# ISDA scaling factors
 SOIL_SCALING = {
-    "ph": 0.1,                # stored ×10
-    "organic_carbon": 0.1,    # stored ×10
-    "bulk_density": 0.01,     # stored ×100
-
+    "ph": 0.1,
+    "organic_carbon": 0.1,
+    "bulk_density": 0.01,
     "calcium": 0.1,
     "magnesium": 0.1,
     "potassium": 0.1,
@@ -51,4 +42,5 @@ SOIL_VIS = {
     "clay": {"min": 0, "max": 60},
     "sand": {"min": 0, "max": 80},
     "silt": {"min": 0, "max": 60},
+    "bulk_density": {"min": 1, "max": 1.8},
 }
