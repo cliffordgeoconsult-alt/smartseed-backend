@@ -1,12 +1,10 @@
-# app/api/endpoints/soil_analysis.py
-
 from fastapi import APIRouter, Body
 import ee
 
-from app.services.gee.soil_analysis import get_soil_analysis
+from app.services.gee.soil_raw import get_raw_soil_data
+from app.services.gee.soil_intelligence import build_soil_intelligence
 
 router = APIRouter()
-
 
 @router.post("/soil/analysis")
 def soil_analysis(
@@ -14,4 +12,16 @@ def soil_analysis(
     depth: str = "0-20cm",
 ):
     ee_geometry = ee.Geometry(geometry)
-    return get_soil_analysis(ee_geometry, depth)
+
+    raw = get_raw_soil_data(ee_geometry, depth)
+
+    if raw["status"] != "success":
+        return raw
+
+    intelligence = build_soil_intelligence(raw["soil_profile"])
+
+    return {
+        "status": "success",
+        "depth": depth,
+        "soil_intelligence": intelligence,
+    }
