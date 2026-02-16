@@ -1,4 +1,8 @@
+# app/services/gee/soil_interpretation.py
 def classify_ph(value):
+    if value is None:
+        return "No data"
+
     if value < 5.5:
         return "Strongly acidic"
     elif value < 6.0:
@@ -10,6 +14,10 @@ def classify_ph(value):
 
 
 def classify_texture(clay, sand, silt):
+
+    if clay is None or sand is None or silt is None:
+        return "No data"
+
     if clay > 40:
         return "Clay soil"
     elif sand > 70:

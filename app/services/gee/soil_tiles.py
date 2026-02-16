@@ -1,3 +1,4 @@
+# app/services/gee/soil_tiles.py
 import ee
 from app.services.gee.soil_config import (
     ISDA_BASE,
@@ -31,5 +32,7 @@ def get_soil_tile(geometry: ee.Geometry, dataset: str, depth: str):
 
     return {
         "status": "success",
+        "dataset": dataset,
+        "depth": depth,
         "tile_url": map_id["tile_fetcher"].url_format,
     }

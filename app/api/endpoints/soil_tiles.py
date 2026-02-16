@@ -1,5 +1,4 @@
 # app/api/endpoints/soil_tiles.py
-
 from fastapi import APIRouter, Body
 import ee
 

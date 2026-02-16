@@ -1,3 +1,4 @@
+# app/services/gee/soil_config.py
 ISDA_BASE = "ISDASOIL/Africa/v1"
 
 VALID_DEPTHS = {
@@ -15,7 +16,6 @@ SOIL_LAYERS = {
     "calcium": "calcium_extractable",
     "magnesium": "magnesium_extractable",
     "potassium": "potassium_extractable",
-    "sodium": "sodium_extractable",
 
     # Texture
     "clay": "clay_content",
