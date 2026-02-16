@@ -28,7 +28,16 @@ def get_raw_soil_data(geometry: ee.Geometry, depth: str):
                 maxPixels=1e13,
             )
 
-            results[key] = stats.getInfo()
+            stats_dict = stats.getInfo()
+
+            if stats_dict:
+                value = list(stats_dict.values())[0]
+            else:
+                value = None
+
+            results[key] = {
+                "mean": value
+            }
 
         return {
             "status": "success",
