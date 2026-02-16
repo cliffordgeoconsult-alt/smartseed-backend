@@ -45,9 +45,9 @@ def build_agri_composite(
     )
 
     temperature = (
-        era5.select("temperature_2m_mean")
+        era5.select("temperature_2m")
         .mean()
-        .subtract(273.15)  # K → °C
+        .subtract(273.15)  # Kelvin → Celsius
     )
 
     # NORMALIZATION
