@@ -4,6 +4,7 @@ from app.services.gee.soil_config import (
     ISDA_BASE,
     SOIL_LAYERS,
     VALID_DEPTHS,
+    SOIL_SCALING,
 )
 
 def get_raw_soil_data(geometry: ee.Geometry, depth: str):
@@ -34,6 +35,11 @@ def get_raw_soil_data(geometry: ee.Geometry, depth: str):
                 value = list(stats_dict.values())[0]
             else:
                 value = None
+
+            # Apply scaling
+            scale = SOIL_SCALING.get(key, 1)
+            if value is not None:
+                value = value * scale
 
             results[key] = {
                 "mean": value

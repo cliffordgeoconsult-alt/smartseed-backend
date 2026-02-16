@@ -12,12 +12,12 @@ SOIL_LAYERS = {
     "organic_carbon": "carbon_organic",
     "cec": "cation_exchange_capacity",
 
-    # Exchangeable bases
+    # Exchangeable bases (cmolc/kg)
     "calcium": "calcium_extractable",
     "magnesium": "magnesium_extractable",
     "potassium": "potassium_extractable",
 
-    # Texture
+    # Texture (%)
     "clay": "clay_content",
     "sand": "sand_content",
     "silt": "silt_content",
@@ -26,9 +26,24 @@ SOIL_LAYERS = {
     "bulk_density": "bulk_density",
 }
 
+# ISDA scaling factors
+SOIL_SCALING = {
+    "ph": 0.1,                # stored ×10
+    "organic_carbon": 0.1,    # stored ×10
+    "bulk_density": 0.01,     # stored ×100
+
+    "calcium": 1,
+    "magnesium": 1,
+    "potassium": 1,
+    "cec": 1,
+    "clay": 1,
+    "sand": 1,
+    "silt": 1,
+}
+
 SOIL_VIS = {
-    "ph": {"min": 3, "max": 9},
-    "organic_carbon": {"min": 0, "max": 10},
+    "ph": {"min": 4, "max": 8},
+    "organic_carbon": {"min": 0, "max": 6},
     "cec": {"min": 0, "max": 40},
     "calcium": {"min": 0, "max": 20},
     "magnesium": {"min": 0, "max": 10},

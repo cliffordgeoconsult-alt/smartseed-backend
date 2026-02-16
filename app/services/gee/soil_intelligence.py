@@ -1,9 +1,7 @@
 # app/services/gee/soil_intelligence.py
 from app.services.gee.soil_calculations import calculate_base_saturation
-from app.services.gee.soil_interpretation import (
-    classify_ph,
-    classify_texture,
-)
+from app.services.gee.soil_interpretation import classify_ph
+
 
 def build_soil_intelligence(raw):
 
@@ -21,14 +19,28 @@ def build_soil_intelligence(raw):
     base_sat = calculate_base_saturation(ca, mg, k, cec)
 
     return {
-        "ph_value": ph,
-        "ph_status": classify_ph(ph),
-        "texture_class": classify_texture(clay, sand, silt),
+        "ph": {
+            "value": ph,
+            "status": classify_ph(ph),
+        },
+
+        "texture_percent": {
+            "clay": clay,
+            "sand": sand,
+            "silt": silt,
+        },
+
         "base_saturation_percent": base_sat,
-        "cec": cec,
-        "calcium": ca,
-        "magnesium": mg,
-        "potassium": k,
-        "organic_carbon": raw["organic_carbon"]["mean"],
-        "bulk_density": raw["bulk_density"]["mean"],
+
+        "cec_cmol_per_kg": cec,
+
+        "exchangeable_bases_cmol_per_kg": {
+            "calcium": ca,
+            "magnesium": mg,
+            "potassium": k,
+        },
+
+        "organic_carbon_percent": raw["organic_carbon"]["mean"],
+
+        "bulk_density_g_cm3": raw["bulk_density"]["mean"],
     }

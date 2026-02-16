@@ -1,6 +1,7 @@
+# app/services/gee/soil_calculations.py
 def calculate_base_saturation(calcium, magnesium, potassium, cec):
 
-    if not cec or cec == 0:
+    if cec is None or cec == 0:
         return None
 
     total_bases = 0
