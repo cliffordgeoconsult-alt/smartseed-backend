@@ -32,9 +32,9 @@ SOIL_SCALING = {
     "organic_carbon": 0.1,    # stored ×10
     "bulk_density": 0.01,     # stored ×100
 
-    "calcium": 1,
-    "magnesium": 1,
-    "potassium": 1,
+    "calcium": 0.1,
+    "magnesium": 0.1,
+    "potassium": 0.1,
     "cec": 1,
     "clay": 1,
     "sand": 1,
