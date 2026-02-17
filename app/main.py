@@ -28,6 +28,7 @@ from app.api.endpoints.soil_analysis import router as soil_analysis_router
 from app.api.endpoints.soil_tiles import router as soil_tiles_router
 from app.api.endpoints.agri_composite import router as agri_composite_router
 from app.api.endpoints.maize_suitability import router as maize_suitability_router
+from app.api.endpoints.maize_timeseries import router as maize_timeseries_router
 from app.api.endpoints.maize_suitability import router as maize_suitability_router
 from app.core.gee_auth import init_gee
 
@@ -76,7 +77,7 @@ app.include_router(soil_analysis_router, prefix="/api")
 app.include_router(soil_tiles_router, prefix="/api")
 app.include_router(agri_composite_router, prefix="/api")
 app.include_router(maize_suitability_router, prefix="/api")
-
+app.include_router(maize_timeseries_router, prefix="/api")
 @app.get("/")
 async def root():
     return {
