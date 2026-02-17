@@ -1,6 +1,6 @@
 # app/services/gee/seasonal_performance.py
 from app.services.gee.rainfall_anomaly import get_seasonal_anomaly
-from app.services.gee.temperature_anomaly import get_seasonal_anomaly as get_temp_anomaly
+from app.services.gee.temperature_anomaly import get_temperature_seasonal_anomaly as get_temp_anomaly
 from app.services.gee.ndvi_anomaly import get_seasonal_anomaly as get_ndvi_anomaly
 
 
