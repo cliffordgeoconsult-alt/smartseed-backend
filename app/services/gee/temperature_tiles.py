@@ -9,9 +9,6 @@ def get_temperature_tiles(
     start_date: str,
     end_date: str
 ) -> dict:
-    """
-    Returns Earth Engine XYZ tile URL for mean 2m air temperature (°C)
-    """
 
     collection = (
         ee.ImageCollection(ERA5_DAILY)
@@ -19,8 +16,12 @@ def get_temperature_tiles(
         .select("temperature_2m")
     )
 
-    # Mean temperature and clip to requested geometry
-    temp_c = collection.mean().subtract(273.15).clip(geometry)
+    temp_c = (
+        collection
+        .mean()
+        .subtract(273.15)
+        .clip(geometry)
+    )
 
     vis_params = {
         "min": 0,
@@ -34,12 +35,9 @@ def get_temperature_tiles(
         ]
     }
 
-    map_dict = ee.Image(temp_c).getMapId(vis_params)
-
-    # CRITICAL FIX — use the FULL tile URL Earth Engine provides
-    tile_url = map_dict["tile_fetcher"].url_format
+    map_dict = temp_c.getMapId(vis_params)
 
     return {
-        "tile_url": tile_url,
+        "tile_url": map_dict["tile_fetcher"].url_format,
         "vis_params": vis_params
     }
