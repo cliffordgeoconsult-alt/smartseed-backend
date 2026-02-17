@@ -12,12 +12,15 @@ RAIN_SEASON_MAP = {
 }
 
 
-def compute_seasonal_performance(
-    geometry,
-    year: int,
-    season: str
-):
-    # Determine rainfall season
+def compute_seasonal_performance(geometry, year: int, season: str):
+    """
+    Compute a Seasonal Performance Index (SPI) based on rainfall, temperature, and NDVI anomalies.
+    - rainfall: percent anomaly
+    - temperature: anomaly in °C
+    - NDVI: percent anomaly
+    """
+
+    # Determine rainfall season for anomaly lookup
     rain_season = RAIN_SEASON_MAP.get(season, season)
 
     # Fetch anomalies
@@ -29,11 +32,9 @@ def compute_seasonal_performance(
     temp_anom = temp.get("mean_temp_anomaly_c", 0)
     ndvi_anom = ndvi.get("anomaly_percent", 0)
 
-    # Normalize temperature anomaly to percent-like scale
-    temp_percent = temp_anom * 5  # scale °C to pseudo %
-
+    # Convert temperature anomaly to weighting factor (internal only)
+    temp_factor = 1 - abs(temp_anom * 5 / 100) * 0.2
     rain_factor = 1 + (rain_anom / 100) * 0.3
-    temp_factor = 1 - abs(temp_percent / 100) * 0.2
     ndvi_factor = 1 + (ndvi_anom / 100) * 0.2
 
     spi = rain_factor * temp_factor * ndvi_factor
