@@ -3,14 +3,25 @@ from app.services.gee.rainfall_anomaly import get_seasonal_anomaly as get_rain_a
 from app.services.gee.temperature_anomaly import get_temperature_seasonal_anomaly as get_temp_anomaly
 from app.services.gee.ndvi_anomaly import get_seasonal_anomaly as get_ndvi_anomaly
 
+# Map NDVI seasons to rainfall seasons
+RAIN_SEASON_MAP = {
+    "MAM": "long_rains",
+    "JJA": "short_rains",
+    "SON": "short_rains",
+    "DJF": "long_rains"
+}
+
 
 def compute_seasonal_performance(
     geometry,
     year: int,
     season: str
 ):
+    # Determine rainfall season
+    rain_season = RAIN_SEASON_MAP.get(season, season)
 
-    rain = get_rain_anomaly(geometry, year, season)
+    # Fetch anomalies
+    rain = get_rain_anomaly(geometry, year, rain_season)
     temp = get_temp_anomaly(geometry, season, year)
     ndvi = get_ndvi_anomaly(geometry, year, season)
 
@@ -26,7 +37,6 @@ def compute_seasonal_performance(
     ndvi_factor = 1 + (ndvi_anom / 100) * 0.2
 
     spi = rain_factor * temp_factor * ndvi_factor
-
     spi = max(0.6, min(1.3, spi))
 
     return {
