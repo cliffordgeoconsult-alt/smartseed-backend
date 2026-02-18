@@ -22,7 +22,6 @@ from app.api.endpoints.temperature import router as temperature_router
 from app.api.endpoints.temperature_tiles import router as temperature_tiles_router
 from app.api.endpoints.temperature_monthly import router as temperature_monthly_router
 from app.api.endpoints.temperature_anomaly import router as temperature_anomaly_router
-from app.api.endpoints.temperature_dashboard import router as temperature_dashboard_router
 from app.api.endpoints.elevation import router as elevation_router
 from app.api.endpoints.elevation_tiles import router as elevation_tiles_router
 from app.api.endpoints.soil_analysis import router as soil_analysis_router
@@ -71,7 +70,6 @@ app.include_router(temperature_tiles_router, prefix="/api")
 app.include_router(temperature_router, prefix="/api")
 app.include_router(temperature_monthly_router, prefix="/api")
 app.include_router(temperature_anomaly_router, prefix="/api")
-app.include_router(temperature_dashboard_router)
 app.include_router(elevation_router, prefix="/api")
 app.include_router(elevation_tiles_router, prefix="/api")
 app.include_router(soil_analysis_router, prefix="/api")
