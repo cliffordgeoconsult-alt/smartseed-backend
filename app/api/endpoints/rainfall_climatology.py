@@ -13,7 +13,6 @@ router = APIRouter(
     tags=["Rainfall Climatology"]
 )
 
-
 @router.post("/monthly")
 def monthly_climatology(
     geometry: ee.Geometry = Depends(get_geometry)
@@ -26,7 +25,6 @@ def monthly_climatology(
         "units": "mm",
         **data
     }
-
 
 @router.post("/annual")
 def annual_climatology(

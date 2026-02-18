@@ -1,5 +1,4 @@
 # app/services/gee/temperature_anomaly.py
-# app/services/gee/temperature_anomaly.py
 import ee
 
 ERA5_DAILY = "ECMWF/ERA5_LAND/DAILY_AGGR"
@@ -10,7 +9,6 @@ SEASONS = {
     "SON": [9, 10, 11],
     "DJF": [12, 1, 2]
 }
-
 
 def _season_collection(year: int, season: str) -> ee.ImageCollection:
     months = SEASONS[season]

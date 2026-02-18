@@ -2,7 +2,6 @@ import ee
 
 SRTM = "USGS/SRTMGL1_003"
 
-
 def get_elevation_and_slope(geometry: ee.Geometry) -> dict:
     """
     Returns elevation (m) and slope (degrees)

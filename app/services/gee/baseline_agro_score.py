@@ -1,8 +1,6 @@
 # app/services/gee/baseline_agro_score.py
 import ee
 from app.services.gee.soil_config import ISDA_BASE, VALID_DEPTHS
-
-
 def compute_baseline_score(
     geometry: ee.Geometry,
     depth: str = "0-20cm"
@@ -18,8 +16,7 @@ def compute_baseline_score(
     oc = ee.Image(f"{ISDA_BASE}/carbon_organic").select(band).multiply(0.1)
     cec = ee.Image(f"{ISDA_BASE}/cation_exchange_capacity").select(band)
 
-    # --- Centered agronomic scoring ---
-
+    # Centered agronomic scoring
     # Ideal maize pH ≈ 6.2
     ph_score = ee.Image(1).subtract(
         ph.subtract(6.2).abs().divide(1.5)

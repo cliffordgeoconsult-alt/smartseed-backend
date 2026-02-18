@@ -6,13 +6,11 @@ from app.services.gee.maize_timeseries import maize_time_series
 
 router = APIRouter(tags=["Maize Time Series"])
 
-
 class TimeSeriesRequest(BaseModel):
     geometry: dict
     start_year: int
     end_year: int
     season: str
-
 
 @router.post("/maize/timeseries")
 def maize_timeseries(request: TimeSeriesRequest):

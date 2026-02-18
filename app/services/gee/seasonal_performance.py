@@ -11,7 +11,6 @@ RAIN_SEASON_MAP = {
     "DJF": "long_rains"
 }
 
-
 def compute_seasonal_performance(geometry, year: int, season: str):
 
     rain_season = RAIN_SEASON_MAP.get(season, season)
@@ -24,7 +23,7 @@ def compute_seasonal_performance(geometry, year: int, season: str):
     temp_anom = temp.get("mean_temp_anomaly_c", 0)
     ndvi_anom = ndvi.get("anomaly_percent", 0)
 
-    # ---- Rainfall stress curve ----
+    # Rainfall stress curve 
     if rain_anom < -30:
         rain_factor = 0.7
     elif rain_anom < -10:
@@ -36,7 +35,7 @@ def compute_seasonal_performance(geometry, year: int, season: str):
     else:
         rain_factor = 0.85
 
-    # ---- Temperature stress curve ----
+    # Temperature stress curve 
     if abs(temp_anom) < 1:
         temp_factor = 1.0
     elif abs(temp_anom) < 2:

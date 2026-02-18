@@ -17,7 +17,6 @@ def _rolling_baseline():
     start_year = end_year - 19
     return start_year, end_year
 
-
 def _reduce_mean(image, geometry):
     return image.reduceRegion(
         reducer=ee.Reducer.mean(),

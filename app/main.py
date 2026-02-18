@@ -41,7 +41,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# startup event to initialize GEE
+# startup to initialize GEE
 @app.on_event("startup")
 def startup_event():
     init_gee()
@@ -49,7 +49,7 @@ def startup_event():
 # CORS middleware (allows frontend to talk to backend)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For development only. Restrict in production.
+    allow_origins=["*"],  # This is for development only. I will restrict in production.
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

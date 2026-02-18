@@ -10,7 +10,6 @@ SEASONS = {
     "DJF": [12, 1, 2]
 }
 
-
 def _season_collection(year: int, season: str) -> ee.ImageCollection:
     months = SEASONS[season]
     collection = ee.ImageCollection([])

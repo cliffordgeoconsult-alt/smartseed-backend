@@ -10,17 +10,12 @@ SEASONS = {
     "short_rains": ("10-01", "12-31")   # OND
 }
 
-
-# ==========================================================
 # Helper Functions
-# ==========================================================
-
 def _rolling_baseline_years():
     today = datetime.utcnow()
     end_year = today.year - 1
     start_year = end_year - 19
     return start_year, end_year
-
 
 def _compute_anomaly(current_val, baseline_val):
     if not baseline_val or baseline_val == 0:
@@ -49,11 +44,7 @@ def _reduce_to_mean(image, geometry):
         .get("precipitation")
     )
 
-
-# ==========================================================
 # SEASONAL ANOMALY
-# ==========================================================
-
 def get_seasonal_anomaly(geometry: ee.Geometry, year: int, season: str):
 
     if season not in SEASONS:
@@ -115,11 +106,7 @@ def get_seasonal_anomaly(geometry: ee.Geometry, year: int, season: str):
         "baseline_period": f"{baseline_start_year}-{baseline_end_year}"
     }
 
-
-# ==========================================================
 # ANNUAL ANOMALY
-# ==========================================================
-
 def get_annual_anomaly(geometry: ee.Geometry, year: int):
 
     today = datetime.utcnow()
@@ -162,11 +149,7 @@ def get_annual_anomaly(geometry: ee.Geometry, year: int):
         "baseline_period": f"{baseline_start_year}-{baseline_end_year}"
     }
 
-
-# ==========================================================
 # MONTHLY ANOMALY
-# ==========================================================
-
 def get_monthly_anomaly(geometry: ee.Geometry, year: int, month: int):
 
     today = datetime.utcnow()

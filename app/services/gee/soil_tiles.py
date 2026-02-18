@@ -7,7 +7,6 @@ from app.services.gee.soil_config import (
     SOIL_SCALING,
 )
 
-
 def get_multi_soil_tiles(
     geometry: ee.Geometry,
     datasets: list,
@@ -24,14 +23,14 @@ def get_multi_soil_tiles(
     for dataset in datasets:
 
         if dataset not in SOIL_LAYERS:
-            continue  # skip invalid layers safely
+            continue  
 
         dataset_name = SOIL_LAYERS[dataset]
 
         image = ee.Image(f"{ISDA_BASE}/{dataset_name}")
         band = image.select(band_name)
 
-        # 🔥 Apply scaling for visualization
+        # Apply scaling for visualization
         scale_factor = SOIL_SCALING.get(dataset, 1)
         if scale_factor != 1:
             band = band.multiply(scale_factor)

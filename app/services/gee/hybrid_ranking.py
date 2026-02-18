@@ -4,7 +4,6 @@ HYBRIDS = [
     {"name": "SC Duma 43", "rain_opt": (500, 800), "ph_opt": (5.0, 7.0)},
 ]
 
-
 def rank_hybrids(mean_rainfall, ph_value):
 
     results = []

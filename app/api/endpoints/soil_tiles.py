@@ -8,12 +8,10 @@ from app.services.gee.soil_tiles import get_multi_soil_tiles
 
 router = APIRouter()
 
-
 class SoilTilesRequest(BaseModel):
     geometry: dict
     datasets: List[str]
     depth: str = "0-20cm"
-
 
 @router.post("/soil/tiles")
 def soil_tiles(request: SoilTilesRequest):

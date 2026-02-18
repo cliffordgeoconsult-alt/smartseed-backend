@@ -4,11 +4,9 @@ import calendar
 
 S2_COLLECTION = "COPERNICUS/S2_SR_HARMONIZED"
 
-
 def _add_ndvi(image: ee.Image) -> ee.Image:
     ndvi = image.normalizedDifference(["B8", "B4"]).rename("NDVI")
     return image.addBands(ndvi)
-
 
 def _collection(geometry, start_date, end_date):
     return (
@@ -19,7 +17,6 @@ def _collection(geometry, start_date, end_date):
         .map(_add_ndvi)
         .select("NDVI")
     )
-
 
 # NDVI SUMMARY
 def get_ndvi_summary(geometry, start_date, end_date):
@@ -73,5 +70,4 @@ def get_ndvi_timeseries(geometry, start_year, end_year):
                 "month": month,
                 "mean_ndvi": ee.Number(mean_val).getInfo()
             })
-
     return results

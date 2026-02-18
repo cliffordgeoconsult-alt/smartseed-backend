@@ -2,7 +2,6 @@
 def classify_ph(value):
     if value is None:
         return "No data"
-
     if value < 5.5:
         return "Strongly acidic"
     elif value < 6.0:

@@ -6,7 +6,6 @@ from app.services.gee.ndvi_climatology import get_ndvi_climatology
 
 router = APIRouter(prefix="/ndvi", tags=["NDVI"])
 
-
 @router.post("/climatology")
 def ndvi_climatology(
     geometry: ee.Geometry = Depends(get_geometry)

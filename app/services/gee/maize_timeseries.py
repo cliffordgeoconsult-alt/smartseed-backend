@@ -1,7 +1,6 @@
 # app/services/gee/maize_timeseries.py
 from app.services.gee.maize_suitability import compute_maize_suitability
 
-
 def maize_time_series(geometry, start_year, end_year, season):
 
     results = []

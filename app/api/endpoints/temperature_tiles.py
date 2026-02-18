@@ -10,7 +10,6 @@ router = APIRouter(
     tags=["Temperature Raster"]
 )
 
-
 @router.post("")
 def temperature_tiles(
     geometry: ee.Geometry = Depends(get_geometry),

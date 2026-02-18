@@ -2,11 +2,9 @@ import ee
 
 S2_COLLECTION = "COPERNICUS/S2_SR_HARMONIZED"
 
-
 def _add_ndvi(image: ee.Image) -> ee.Image:
     ndvi = image.normalizedDifference(["B8", "B4"]).rename("NDVI")
     return image.addBands(ndvi)
-
 
 def get_ndvi_tiles(
     geometry: ee.Geometry,

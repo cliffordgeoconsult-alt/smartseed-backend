@@ -9,7 +9,6 @@ router = APIRouter(
     tags=["Elevation & Terrain"]
 )
 
-
 @router.post("/summary")
 def elevation_summary(
     geometry: ee.Geometry = Depends(get_geometry)

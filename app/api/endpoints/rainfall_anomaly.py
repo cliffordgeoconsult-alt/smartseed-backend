@@ -11,11 +11,7 @@ from app.services.gee.rainfall_anomaly import (
 
 router = APIRouter(prefix="/rainfall", tags=["Rainfall Anomaly"])
 
-
-# ==========================================================
 # SEASONAL (MAM / OND)
-# ==========================================================
-
 @router.post("/anomaly/seasonal")
 def seasonal_anomaly(
     geometry: ee.Geometry = Depends(get_geometry),
@@ -30,11 +26,7 @@ def seasonal_anomaly(
         **result
     }
 
-
-# ==========================================================
 # ANNUAL
-# ==========================================================
-
 @router.post("/anomaly/annual")
 def annual_anomaly(
     geometry: ee.Geometry = Depends(get_geometry),
@@ -48,11 +40,7 @@ def annual_anomaly(
         **result
     }
 
-
-# ==========================================================
 # MONTHLY
-# ==========================================================
-
 @router.post("/anomaly/monthly")
 def monthly_anomaly(
     geometry: ee.Geometry = Depends(get_geometry),

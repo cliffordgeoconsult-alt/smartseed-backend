@@ -2,7 +2,6 @@
 import ee
 from datetime import datetime
 
-
 CHIRPS_ID = "UCSB-CHG/CHIRPS/DAILY"
 
 # Custom Date Range Rainfall

@@ -2,8 +2,6 @@
 import ee
 from app.services.gee.baseline_agro_score import compute_baseline_score
 from app.services.gee.seasonal_performance import compute_seasonal_performance
-
-
 def compute_maize_suitability(
     geometry: ee.Geometry,
     year: int,

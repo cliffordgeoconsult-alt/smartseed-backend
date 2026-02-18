@@ -3,7 +3,6 @@ import ee
 
 ERA5_DAILY = "ECMWF/ERA5_LAND/DAILY_AGGR"
 
-
 def get_temperature_tiles(
     geometry: ee.Geometry,
     start_date: str,

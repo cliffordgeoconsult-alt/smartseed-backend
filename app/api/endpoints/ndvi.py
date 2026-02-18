@@ -6,7 +6,6 @@ from app.services.gee.ndvi import get_ndvi_summary, get_ndvi_timeseries
 
 router = APIRouter(prefix="/ndvi", tags=["NDVI"])
 
-
 @router.post("/summary")
 def ndvi_summary(
     geometry: ee.Geometry = Depends(get_geometry),
@@ -14,7 +13,6 @@ def ndvi_summary(
     end_date: str = Query(...)
 ):
     return get_ndvi_summary(geometry, start_date, end_date)
-
 
 @router.post("/timeseries")
 def ndvi_timeseries(

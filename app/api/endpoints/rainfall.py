@@ -33,7 +33,6 @@ def rainfall_analysis(
         "dataset": "CHIRPS"
     }
 
-
 # Annual Rainfall
 @router.post("/annual")
 def annual_rainfall(

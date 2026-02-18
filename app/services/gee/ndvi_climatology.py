@@ -3,7 +3,6 @@ import ee
 from datetime import datetime
 from app.services.gee.ndvi import get_ndvi_timeseries
 
-
 def get_ndvi_climatology(geometry, baseline_years: int = 5):
 
     current_year = datetime.utcnow().year

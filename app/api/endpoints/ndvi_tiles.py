@@ -6,7 +6,6 @@ from app.services.gee.ndvi_tiles import get_ndvi_tiles
 
 router = APIRouter(prefix="/ndvi", tags=["NDVI"])
 
-
 @router.post("/tiles")
 def ndvi_tiles(
     geometry: ee.Geometry = Depends(get_geometry),

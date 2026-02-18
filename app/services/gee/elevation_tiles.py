@@ -2,7 +2,6 @@ import ee
 
 SRTM = "USGS/SRTMGL1_003"
 
-
 def get_elevation_tiles(geometry: ee.Geometry) -> dict:
     """
     Returns map tiles URL for elevation (meters)

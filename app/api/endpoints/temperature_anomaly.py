@@ -9,7 +9,6 @@ from app.services.gee.temperature_anomaly import (
 
 router = APIRouter()
 
-
 @router.post("/temperature/anomaly")
 def temperature_anomaly(
     season: str = Query(..., description="MAM, JJA, SON, DJF"),

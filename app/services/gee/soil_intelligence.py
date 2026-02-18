@@ -2,7 +2,6 @@
 from app.services.gee.soil_calculations import calculate_base_saturation
 from app.services.gee.soil_interpretation import classify_ph
 
-
 def build_soil_intelligence(raw):
 
     ph = raw["ph"]["mean"]

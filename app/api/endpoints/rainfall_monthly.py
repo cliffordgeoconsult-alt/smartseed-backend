@@ -7,7 +7,6 @@ from app.services.gee.rainfall_monthly import get_monthly_rainfall
 
 router = APIRouter(prefix="/rainfall", tags=["Rainfall"])
 
-
 @router.post("/monthly")
 def monthly_rainfall(
     geometry: ee.Geometry = Depends(get_geometry),
@@ -18,7 +17,6 @@ def monthly_rainfall(
     geometry=geometry,
     year=year
 )
-
 
     return {
         "status": "success",
