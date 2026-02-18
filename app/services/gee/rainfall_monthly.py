@@ -2,30 +2,57 @@
 import ee
 
 CHIRPS = "UCSB-CHG/CHIRPS/DAILY"
-
+from datetime import datetime
 
 def get_monthly_rainfall(
     geometry: ee.Geometry,
     year: int
 ):
-    """
-    Returns monthly total rainfall (mm) for a given year
-    """
+
+    today = datetime.utcnow()
+    current_year = today.year
+
+    # Prevent future year
+    if year > current_year:
+        return []
+
+    year_end = f"{year}-12-31"
+
+    # Partial current year
+    if year == current_year:
+        year_end = today.strftime("%Y-%m-%d")
 
     collection = (
         ee.ImageCollection(CHIRPS)
         .filterBounds(geometry)
-        .filterDate(f"{year}-01-01", f"{year}-12-31")
+        .filterDate(f"{year}-01-01", year_end)
         .select("precipitation")
     )
 
     results = []
 
     for month in range(1, 13):
+
+        # Skip future months in current year
+        if year == current_year and month > today.month:
+            results.append({
+                "month": month,
+                "total_mm": None
+            })
+            continue
+
         start = ee.Date.fromYMD(year, month, 1)
         end = start.advance(1, "month")
 
         monthly = collection.filterDate(start, end)
+        image_count = monthly.size().getInfo()
+
+        if image_count == 0:
+            results.append({
+                "month": month,
+                "total_mm": None
+            })
+            continue
 
         total_img = monthly.sum()
 
@@ -36,25 +63,11 @@ def get_monthly_rainfall(
             bestEffort=True
         )
 
-        results.append(
-            ee.Feature(
-                None,
-                {
-                    "month": month,
-                    "total_mm": stats.get("precipitation")
-                }
-            )
-        )
+        total_mm = stats.get("precipitation").getInfo()
 
-    fc = ee.FeatureCollection(results)
-    data = fc.getInfo()["features"]
-
-    output = []
-    for f in data:
-        p = f["properties"]
-        output.append({
-            "month": p["month"],
-            "total_mm": p["total_mm"]
+        results.append({
+            "month": month,
+            "total_mm": total_mm
         })
 
-    return output
+    return results

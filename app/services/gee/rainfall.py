@@ -16,16 +16,36 @@ def compute_rainfall(
     Returns total and mean rainfall (mm).
     """
 
-    # Validate dates early
-    datetime.fromisoformat(start_date)
-    datetime.fromisoformat(end_date)
+    # Validate date format
+    start_dt = datetime.fromisoformat(start_date)
+    end_dt = datetime.fromisoformat(end_date)
+    today = datetime.utcnow()
+
+    # Prevent future date ranges
+    if start_dt > today or end_dt > today:
+        return {
+            "total_mm": None,
+            "days": 0,
+            "mean_mm_per_day": None,
+            "message": "Future date range not allowed."
+        }
 
     collection = (
         ee.ImageCollection(CHIRPS_ID)
         .filterDate(start_date, end_date)
         .filterBounds(geometry)
     )
+
     image_count = collection.size()
+    image_count_val = image_count.getInfo()
+
+    # Prevent division by zero
+    if image_count_val == 0:
+        return {
+            "total_mm": None,
+            "days": 0,
+            "mean_mm_per_day": None
+        }
 
     total_rainfall = collection.sum()
 
@@ -52,14 +72,39 @@ def get_annual_rainfall(
     year: int
 ):
 
+    today = datetime.utcnow()
+    current_year = today.year
+
     if year < 1981:
         raise ValueError("CHIRPS data starts from 1981.")
+
+    # Prevent future year
+    if year > current_year:
+        return {
+            "year": year,
+            "total_mm": None,
+            "message": "Year is in the future."
+        }
+
+    year_end = f"{year}-12-31"
+
+    # Partial current year
+    if year == current_year:
+        year_end = today.strftime("%Y-%m-%d")
 
     collection = (
         ee.ImageCollection(CHIRPS_ID)
         .filterBounds(geometry)
-        .filterDate(f"{year}-01-01", f"{year}-12-31")
+        .filterDate(f"{year}-01-01", year_end)
     )
+
+    image_count = collection.size().getInfo()
+
+    if image_count == 0:
+        return {
+            "year": year,
+            "total_mm": None
+        }
 
     total_img = collection.sum()
 
