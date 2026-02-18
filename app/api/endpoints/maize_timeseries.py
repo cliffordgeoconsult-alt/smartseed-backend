@@ -1,3 +1,4 @@
+# app/api/endpoints/maize_timeseries.py
 from fastapi import APIRouter
 from pydantic import BaseModel
 import ee
